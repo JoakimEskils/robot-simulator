@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CommandProcessor {
-    private final Robot robot;
+    private final Robot robot; // Use the interface now
 
     public CommandProcessor(Robot robot) {
         this.robot = robot;
@@ -22,24 +22,61 @@ public class CommandProcessor {
         }
     }
 
-    private void processCommand(String commandLine) {
-        if (commandLine.startsWith("PLACE")) {
-            String[] parts = commandLine.split("[ ,]+");
+    void processCommand(String commandLine) {
+        if (commandLine.isEmpty()) return; // ignore empty lines
 
-            if (parts.length == 4) {
-                int x = Integer.parseInt(parts[1]);
-                int y = Integer.parseInt(parts[2]);
-                Direction direction = Direction.valueOf(parts[3]);
-                robot.place(x, y, direction);
-            }
-        } else if ("MOVE".equals(commandLine)) {
-            robot.move();
-        } else if ("LEFT".equals(commandLine)) {
-            robot.left(); // Updated to match Robot.java
-        } else if ("RIGHT".equals(commandLine)) {
-            robot.right(); // Updated to match Robot.java
-        } else if ("REPORT".equals(commandLine)) {
-            System.out.println("Output: " + robot.getX() + "," + robot.getY() + "," + robot.getDirection());
+        String command = commandLine.contains(",") ? commandLine.substring(0, commandLine.indexOf(',')) : commandLine;
+
+        switch (command) {
+            case "PLACE":
+                handlePlaceCommand(commandLine);
+                break;
+            case "MOVE":
+                if (commandLine.equals("MOVE")) robot.move();
+                else invalidCommand(commandLine);
+                break;
+            case "LEFT":
+                if (commandLine.equals("LEFT")) robot.left();
+                else invalidCommand(commandLine);
+                break;
+            case "RIGHT":
+                if (commandLine.equals("RIGHT")) robot.right();
+                else invalidCommand(commandLine);
+                break;
+            case "REPORT":
+                if (commandLine.equals("REPORT")) System.out.println(robot.report());
+                else invalidCommand(commandLine);
+                break;
+            default:
+                invalidCommand(commandLine);
+                break;
         }
+    }
+
+    private void handlePlaceCommand(String commandLine) {
+        if (!commandLine.startsWith("PLACE,")) {
+            invalidCommand(commandLine);
+            return;
+        }
+
+        String[] params = commandLine.substring(6).split(","); // skip "PLACE,"
+        if (params.length != 3) {
+            invalidCommand(commandLine);
+            return;
+        }
+
+        try {
+            int x = Integer.parseInt(params[0]);
+            int y = Integer.parseInt(params[1]);
+            Direction direction = Direction.valueOf(params[2]);
+
+            robot.place(x, y, direction);
+        } catch (IllegalArgumentException e) {
+            invalidCommand(commandLine);
+        }
+    }
+
+    private void invalidCommand(String commandLine) {
+        System.out.println("Invalid command ignored: " + commandLine);
     }
 }

@@ -2,7 +2,7 @@ package com.robot.simulator;
 
 public class Main {
     public static void main(String[] args) {
-        Robot robot = new Robot();
+        RobotImpl robot = new RobotImpl();
         CommandProcessor processor = new CommandProcessor(robot);
 
         processor.processCommands("src/main/resources/commands.txt");
