@@ -1,5 +1,8 @@
 package com.robot.simulator;
 
+import com.robot.simulator.command.*;
+import com.robot.simulator.model.Direction;
+import com.robot.simulator.model.Position;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package com.robot.simulator;
+package com.robot.simulator.model;
 
 public enum Direction {
     NORTH, EAST, SOUTH, WEST;

@@ -1,5 +1,11 @@
 package com.robot.simulator;
 
+import com.robot.simulator.command.CommandExecutor;
+import com.robot.simulator.command.CommandProcessor;
+import com.robot.simulator.command.PlaceCommand;
+import com.robot.simulator.model.Direction;
+import com.robot.simulator.model.Position;
+import com.robot.simulator.model.Robot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.*;

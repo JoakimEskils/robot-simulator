@@ -1,6 +1,11 @@
 package com.robot.simulator;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import com.robot.simulator.model.Direction;
+import com.robot.simulator.model.Position;
+import com.robot.simulator.model.Robot;
+import com.robot.simulator.model.RobotImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +15,7 @@ class RobotTest {
 
     @BeforeEach
     void setUp() {
-        robot = new RobotImpl();  // Assuming RobotImpl is your Robot implementation class
+        robot = new RobotImpl();
     }
 
     @Test
@@ -56,7 +61,6 @@ class RobotTest {
 
     @Test
     void testIgnoreInvalidPlace() {
-        // Assuming the robot ignores place commands out of bounds or invalid
         robot.place(new Position(-1, -1), Direction.NORTH);
         assertNull(robot.getDirection(), "Robot direction should be null after invalid place");
     }

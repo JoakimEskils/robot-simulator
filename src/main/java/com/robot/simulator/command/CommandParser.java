@@ -1,4 +1,7 @@
-package com.robot.simulator;
+package com.robot.simulator.command;
+
+import com.robot.simulator.model.Direction;
+import com.robot.simulator.model.Position;
 
 public class CommandParser {
 

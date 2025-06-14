@@ -1,4 +1,7 @@
-package com.robot.simulator;
+package com.robot.simulator.app;
+
+import com.robot.simulator.command.CommandProcessor;
+import com.robot.simulator.model.RobotImpl;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,6 @@
-package com.robot.simulator;
+package com.robot.simulator.command;
+
+import com.robot.simulator.model.Robot;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

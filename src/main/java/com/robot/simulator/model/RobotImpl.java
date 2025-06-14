@@ -1,4 +1,4 @@
-package com.robot.simulator;
+package com.robot.simulator.model;
 
 public class RobotImpl implements Robot {
     private int x;
@@ -68,7 +68,6 @@ public class RobotImpl implements Robot {
         return x >= 0 && x < TABLE_WIDTH && y >= 0 && y < TABLE_HEIGHT;
     }
 
-    // Getters if needed
     public int getX() {
         return x;
     }

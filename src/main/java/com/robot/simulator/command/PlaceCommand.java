@@ -1,4 +1,8 @@
-package com.robot.simulator;
+package com.robot.simulator.command;
+
+import com.robot.simulator.model.Direction;
+import com.robot.simulator.model.Position;
+import com.robot.simulator.model.Robot;
 
 public final class PlaceCommand implements Command {
     private final Position position;

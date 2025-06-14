@@ -1,4 +1,4 @@
-package com.robot.simulator;
+package com.robot.simulator.model;
 
 import java.util.Objects;
 
@@ -21,11 +21,6 @@ public final class Position {
         if (!(o instanceof Position)) return false;
         Position position = (Position) o;
         return x == position.x && y == position.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
     }
 
     @Override
