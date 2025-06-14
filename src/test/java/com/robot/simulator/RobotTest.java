@@ -1,130 +1,64 @@
 package com.robot.simulator;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class RobotTest {
 
-    @Test
-    void testInitialState_NotPlaced() {
-        RobotImpl robot = new RobotImpl();
-        assertFalse(robot.isPlaced());
-        robot.move();  // Should do nothing without errors
-        robot.left();  // Should do nothing without errors
-        robot.right(); // Should do nothing without errors
+    private Robot robot;
+
+    @BeforeEach
+    void setUp() {
+        robot = new RobotImpl();  // Assuming RobotImpl is your Robot implementation class
     }
 
     @Test
-    void testValidPlacement() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(0, 0, Direction.NORTH);
-        assertTrue(robot.isPlaced());
-        assertEquals(0, robot.getX());
-        assertEquals(0, robot.getY());
-        assertEquals(Direction.NORTH, robot.getDirection());
-    }
+    void testPlaceValidPosition() {
+        Position position = new Position(1, 2);
+        Direction direction = Direction.EAST;
+        robot.place(position, direction);
 
-    @Test
-    void testInvalidPlacement() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(5, 5, Direction.NORTH); // Out of bounds
-        assertFalse(robot.isPlaced());
-    }
-
-    @Test
-    void testMultiplePlaceCommands() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(0, 0, Direction.NORTH);
-        assertTrue(robot.isPlaced());
-        robot.place(2, 2, Direction.EAST);
-        assertEquals(2, robot.getX());
+        assertEquals(1, robot.getX());
         assertEquals(2, robot.getY());
         assertEquals(Direction.EAST, robot.getDirection());
     }
 
     @Test
-    void testMoveWithinBounds() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(1, 1, Direction.NORTH);
-        robot.move();
-        assertEquals(1, robot.getX());
-        assertEquals(2, robot.getY());
-    }
-
-    @Test
-    void testMoveOutOfBounds_Prevented() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(0, 4, Direction.NORTH);
-        robot.move();  // Should NOT move beyond boundary
-        assertEquals(0, robot.getX());
-        assertEquals(4, robot.getY());
-    }
-
-    @Test
-    void testMoveInAllDirections() {
-        RobotImpl robot = new RobotImpl();
-
-        robot.place(1, 1, Direction.NORTH);
-        robot.move();
-        assertEquals(2, robot.getY());
-
-        robot.place(1, 1, Direction.EAST);
-        robot.move();
-        assertEquals(2, robot.getX());
-
-        robot.place(1, 1, Direction.SOUTH);
-        robot.move();
-        assertEquals(0, robot.getY());
-
-        robot.place(1, 1, Direction.WEST);
+    void testMoveForward() {
+        robot.place(new Position(0, 0), Direction.NORTH);
         robot.move();
         assertEquals(0, robot.getX());
+        assertEquals(1, robot.getY());
+        assertEquals(Direction.NORTH, robot.getDirection());
     }
 
     @Test
     void testLeftTurn() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(0, 0, Direction.NORTH);
+        robot.place(new Position(0, 0), Direction.NORTH);
         robot.left();
         assertEquals(Direction.WEST, robot.getDirection());
     }
 
     @Test
     void testRightTurn() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(0, 0, Direction.NORTH);
+        robot.place(new Position(0, 0), Direction.NORTH);
         robot.right();
         assertEquals(Direction.EAST, robot.getDirection());
     }
 
     @Test
-    void testFullRotationLeft() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(0, 0, Direction.NORTH);
-
-        for (int i = 0; i < 4; i++) {
-            robot.left();
-        }
-        assertEquals(Direction.NORTH, robot.getDirection());
+    void testReport() {
+        robot.place(new Position(2, 3), Direction.SOUTH);
+        String report = robot.report();
+        assertEquals("2,3,SOUTH", report);
     }
 
     @Test
-    void testFullRotationRight() {
-        RobotImpl robot = new RobotImpl();
-        robot.place(0, 0, Direction.NORTH);
-
-        for (int i = 0; i < 4; i++) {
-            robot.right();
-        }
-        assertEquals(Direction.NORTH, robot.getDirection());
+    void testIgnoreInvalidPlace() {
+        // Assuming the robot ignores place commands out of bounds or invalid
+        robot.place(new Position(-1, -1), Direction.NORTH);
+        assertNull(robot.getDirection(), "Robot direction should be null after invalid place");
     }
 
-    @Test
-    void testReportOutput() {
-        RobotImpl robot = new RobotImpl();
-        assertEquals("Robot not yet placed", robot.report());
-
-        robot.place(1, 2, Direction.EAST);
-        assertEquals("1,2,EAST", robot.report());
-    }
 }

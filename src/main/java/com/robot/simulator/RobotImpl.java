@@ -10,7 +10,14 @@ public class RobotImpl implements Robot {
     private static final int TABLE_HEIGHT = 5;
 
     @Override
-    public void place(int x, int y, Direction direction) {
+    public void place(Position position, Direction direction) {
+        if (position == null || direction == null) {
+            return;  // optionally ignore null input
+        }
+
+        int x = position.getX();
+        int y = position.getY();
+
         if (isValidPosition(x, y)) {
             this.x = x;
             this.y = y;
@@ -54,7 +61,7 @@ public class RobotImpl implements Robot {
     @Override
     public String report() {
         if (!isPlaced) return "Robot not yet placed";
-        return this.getX() + "," + this.getY() + "," + this.getDirection();
+        return x + "," + y + "," + direction;
     }
 
     private boolean isValidPosition(int x, int y) {
@@ -62,8 +69,19 @@ public class RobotImpl implements Robot {
     }
 
     // Getters if needed
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public Direction getDirection() { return direction; }
-    public boolean isPlaced() { return isPlaced; }
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public boolean isPlaced() {
+        return isPlaced;
+    }
 }
